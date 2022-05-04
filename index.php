@@ -14,11 +14,15 @@
         <h1><?php bloginfo("name") ?></h1>
     </header>
 
-    <div class="quote">"A clever person solves a problem. A wise person avoids it."</div>
-    <div class="author">- Albert Einstein</div>
+    <?php while(have_posts()): the_post() ?>
+        <?php $quoteLoop = new WP_Query(array("post_type" => "quote", "posts_per_page" => -1)) ?>
+        <?php while($quoteLoop->have_posts()): $quoteLoop->the_post() ?>
+            <div class="quote">"<?php the_title() ?>"</div>
+            <div class="author">- <?php the_field("author") ?></div>
+        <?php endwhile ?>
+        <?php wp_reset_postdata() ?>
 
-    <div class="quote">"I am so clever that sometimes I don't understand a single word of what I am saying."</div>
-    <div class="author">- Oscar Wilde</div>
+    <?php endwhile ?>
 
     <?php wp_footer() ?>
 </body>
